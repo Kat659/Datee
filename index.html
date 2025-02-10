@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Valentine's Day</title>
+  <title>Will You Be My Valentine?</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
       text-align: center;
       background-color: #f9f9f9;
+      overflow: hidden;
     }
     .container {
       margin-top: 50px;
@@ -20,6 +21,7 @@
       border-radius: 5px;
       cursor: pointer;
       margin: 10px;
+      transition: all 0.3s ease;
     }
     .yes-button {
       background-color: #4CAF50;
@@ -30,22 +32,31 @@
       color: white;
     }
     .cute-img {
-      width: 150px;
+      width: 200px;
       margin: 20px auto;
+      transition: opacity 0.5s ease;
+    }
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1></h1>
-    <img src="https://i.imgur.com/your-image.png" alt="Cute Image" class="cute-img">
-    <div>
-      <button class="button yes-button" onclick="handleYesClick()">Yes</button>
+    <h1 id="question">Will you be my Valentine?</h1>
+    <img id="cuteImage" src="https://media.tenor.com/F7YIQb521dgAAAAi/tkthao219-capoo.gif" alt="Cute Animated Cat" class="cute-img">
+    <div id="buttons">
+      <button id="yesButton" class="button yes-button" onclick="handleYesClick()">Yes</button>
       <button class="button no-button" onclick="handleNoClick()">No</button>
+    </div>
+    <div id="yesResponse" class="hidden">
+      <h2>Knew you would say yes!</h2>
+      <img src="https://media1.tenor.com/m/eneaKz5SJrEAAAAC/tkthao219-bubududu.gif" alt="Celebration Cat" class="cute-img">
     </div>
   </div>
 
   <script>
+    let messageIndex = 0;
     const messages = [
       "Are you sure?",
       "Come on, say yes!",
@@ -53,19 +64,32 @@
       "Pleaseee?",
       "Pretty please with a cherry on top?"
     ];
-    let messageIndex = 0;
+    let currentSize = 16;
 
     function handleNoClick() {
       const noButton = document.querySelector(".no-button");
-      const yesButton = document.querySelector(".yes-button");
+      const yesButton = document.getElementById("yesButton");
+      
       noButton.textContent = messages[messageIndex];
       messageIndex = (messageIndex + 1) % messages.length;
-      const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
-      yesButton.style.fontSize = `${currentSize + 1.5}px`;
+      
+      currentSize += 20;
+      yesButton.style.fontSize = `${currentSize}px`;
+      yesButton.style.padding = `${currentSize / 4}px ${currentSize / 2}px`;
+
+      if (currentSize > 300) {
+        yesButton.style.width = "100vw";
+        yesButton.style.height = "100vh";
+        yesButton.style.fontSize = "40px";
+        yesButton.textContent = "Just say YES already!";
+      }
     }
 
     function handleYesClick() {
-      window.location.href = "1.html";
+      document.getElementById("question").classList.add("hidden");
+      document.getElementById("buttons").classList.add("hidden");
+      document.getElementById("cuteImage").classList.add("hidden");
+      document.getElementById("yesResponse").classList.remove("hidden");
     }
   </script>
 </body>
